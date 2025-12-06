@@ -1,0 +1,26 @@
+/* style.css */
+body { 
+    background-color: #f8f9fa; 
+    padding: 20px; 
+}
+
+.card { 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    border: none; 
+    margin-bottom: 20px; 
+}
+
+/* Custom Style untuk Select2 agar sesuai tinggi Input Bootstrap */
+.select2-container .select2-selection--single { 
+    height: 38px; 
+    line-height: 38px; 
+    border: 1px solid #ced4da; 
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered { 
+    line-height: 38px; 
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow { 
+    height: 36px; 
+}
