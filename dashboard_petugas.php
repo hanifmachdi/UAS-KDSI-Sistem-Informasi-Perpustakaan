@@ -12,6 +12,9 @@ include 'koneksi.php';
 // LOGIKA PHP UTAMA
 // ============================================================
 
+// daftar anggota pending
+$pending = mysqli_query($conn,"SELECT * FROM anggota WHERE status_akun='Pending'");
+
 // --- A. PROSES PEMINJAMAN MANUAL (INPUT BARU) ---
 if (isset($_POST['pinjam'])) {
     $id_anggota = $_POST['id_anggota'];
@@ -129,6 +132,42 @@ if (isset($_GET['aksi']) && $_GET['aksi'] == 'kembali') {
 
 <div class="container">
     <h2 class="text-center mb-4">Sistem Informasi Perpustakaan MAN 2 Samarinda</h2>
+
+    <div class="card mt-4">
+    <div class="card-header bg-warning">
+        <strong>Menunggu Persetujuan</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>No HP</th>
+                <th>Aksi</th>
+            </tr>
+            <?php 
+            $no = 1;
+            while($row = mysqli_fetch_assoc($pending)) { ?>
+            <tr>
+                <td><?= $no++ ?></td>
+                <td>
+                    <a href='detail_anggota.php?id=<?=  $row['id_anggota'] ?>'>
+                        <?=  $row['nama_lengkap'] ?>
+                    </a>
+                    <br><small><?= $row['kelas'] ?></small>
+                </td>
+                <td><?= $row['no_telepon'] ?></td>
+                <td>
+                    <a href="approve.php?id=<?= $row['id_anggota']?>" class="btn btn-success btn-sm">
+                        Setujui
+                    </a>
+                </td>
+            </tr>
+            <?php } ?>
+        </table>
+    </div>
+</div>
+
 
     <div class="card">
         <div class="card-header bg-primary text-white">

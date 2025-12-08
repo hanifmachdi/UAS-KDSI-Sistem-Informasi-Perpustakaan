@@ -130,6 +130,44 @@ if (isset($_GET['booking'])) {
             <small class="text-muted">* Harap kembalikan buku sebelum tanggal jatuh tempo untuk menghindari denda.</small>
         </div>
     </div>
+    <!-- tampilkna riwayat -->
+    <hr>
+        <h5>Riwayat Peminjaman</h5>
+
+            <table class="table table-bordered">
+            <tr>
+                <th>No</th>
+                <th>Judul Buku</th>
+                <th>Tgl Pinjam</th>
+                <th>Tgl Kembali</th>
+                <th>Denda</th>
+            </tr>
+
+                    <?php
+                      $q = "SELECT p.*, b.judul_buku 
+                                FROM peminjaman p 
+                                JOIN buku b ON p.id_buku = b.id_buku 
+                                WHERE p.id_anggota = '$id_anggota'
+                                AND p.status='Selesai'
+                                ORDER BY p.tanggal_pengembalian DESC";
+
+                    $res = mysqli_query($conn,$q);
+                    $no=1;
+
+                    if(mysqli_num_rows($res)==0){
+                        echo "<tr><td colspan='5' class='text-center text-muted'>Belum ada riwayat</td></tr>";
+                    }
+
+                    while($r=mysqli_fetch_assoc($res)){ ?>
+                    <tr>
+                    <td><?= $no++ ?></td>
+                    <td><?= $r['judul_buku']?></td>
+                    <td><?= date('d-m-Y',strtotime($r['tanggal_pinjam']))?></td>
+                    <td><?= date('d-m-Y',strtotime($r['tanggal_pengembalian']))?></td>
+                    <td><?= number_format($r['denda'],0,',','.')?></td>
+                    </tr>
+                 <?php } ?>
+        </table>
 
     <div class="card">
         <div class="card-header bg-white">

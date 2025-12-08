@@ -13,12 +13,17 @@ if (isset($_SESSION['role'])) {
 }
 
 if (isset($_POST['login'])) {
-    $id_user = $_POST['id_user']; // Bisa ID Petugas (Username) atau ID Anggota
+    $id_user = $_POST['id_user'];
     $password = $_POST['password'];
 
-    // 1. CEK KE TABEL PETUGAS DULU
-    $cek_petugas = mysqli_query($conn, "SELECT * FROM petugas WHERE username = '$id_user' AND password = '$password'");
-    if (mysqli_num_rows($cek_petugas) > 0) {
+    // CEK PETUGAS
+    $cek_petugas = mysqli_query($conn, "
+        SELECT * FROM petugas 
+        WHERE username='$id_user' 
+        AND password='$password'
+    ");
+
+    if(mysqli_num_rows($cek_petugas) > 0){
         $data = mysqli_fetch_assoc($cek_petugas);
         $_SESSION['id_user'] = $data['id_petugas'];
         $_SESSION['nama'] = $data['nama_petugas'];
@@ -27,20 +32,40 @@ if (isset($_POST['login'])) {
         exit;
     }
 
-    // 2. JIKA BUKAN PETUGAS, CEK TABEL ANGGOTA
-    // Asumsi: ID Anggota adalah id_anggota (angka) atau No Telepon
-    $cek_anggota = mysqli_query($conn, "SELECT * FROM anggota WHERE (id_anggota = '$id_user' OR no_telepon = '$id_user') AND password = '$password'");
-    if (mysqli_num_rows($cek_anggota) > 0) {
+    // CEK ANGGOTA
+    //  $cek_anggota = mysqli_query($conn, "SELECT * FROM anggota WHERE (id_anggota = '$id_user' OR no_telepon = '$id_user') AND password = '$password'");
+    // if (mysqli_num_rows($cek_anggota) > 0) {
+    //     $data = mysqli_fetch_assoc($cek_anggota);
+    //     $_SESSION['id_user'] = $data['id_anggota'];
+    //     $_SESSION['nama'] = $data['nama_lengkap'];
+    //     $_SESSION['role'] = 'Anggota';
+    //     header("Location: dashboard_anggota.php");
+    //     exit;
+    // }
+
+    $cek_anggota = mysqli_query($conn, "
+        SELECT * FROM anggota 
+        WHERE (id_anggota='$id_user' OR no_telepon='$id_user') 
+        AND password='$password'
+    ");
+
+    if(mysqli_num_rows($cek_anggota) > 0){
         $data = mysqli_fetch_assoc($cek_anggota);
-        $_SESSION['id_user'] = $data['id_anggota'];
-        $_SESSION['nama'] = $data['nama_lengkap'];
-        $_SESSION['role'] = 'Anggota';
-        header("Location: dashboard_anggota.php");
-        exit;
+        // Cek status 
+        if($data['status_akun'] != "Aktif"){
+            $error = "Akun anda belum diaktifkan!";
+        } else {
+            $_SESSION['id_user'] = $data['id_anggota'];
+            $_SESSION['nama'] = $data['nama_lengkap'];
+            $_SESSION['role'] = 'Anggota';
+            header("Location: dashboard_anggota.php");
+            exit;
+        }
     }
 
-    $error = "ID atau Password Salah!";
+    $error = "ID atau Password salah!";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -72,8 +97,14 @@ if (isset($_POST['login'])) {
             <button type="submit" name="login" class="btn btn-dark w-100">Masuk</button>
         </form>
         <div class="text-center mt-3">
+        <a href="register.php" class="btn btn-outline-primary btn-sm">Daftar Anggota</a>
+        </div>
+        <div class="text-center mt-3">
             <small class="text-muted">Untuk Anggota: ID gunakan ID Anggota / No HP.<br>Password Default: 12345</small>
         </div>
     </div>
+
+
+
 </body>
 </html>
