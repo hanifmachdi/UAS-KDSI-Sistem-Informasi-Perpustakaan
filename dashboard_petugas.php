@@ -8,9 +8,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'Petugas') {
 
 include 'koneksi.php';
 
-// ============================================================
 // LOGIKA PHP UTAMA
-// ============================================================
 
 // daftar anggota pending
 $pending = mysqli_query($conn,"SELECT * FROM anggota WHERE status_akun='Pending'");

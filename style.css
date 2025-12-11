@@ -1,27 +1,118 @@
-/* style.css */
-body { 
-    background-color: #f8f9fa; 
-    padding: 20px; 
+/* ---------- GLOBAL ---------- */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eee;
+    margin: 0;
+    padding: 0;
 }
 
-.card { 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-    border: none; 
-    margin-bottom: 20px; 
+/* ---------- HEADER ---------- */
+.header {
+    background: #ddd;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Custom Style untuk Select2 agar sesuai tinggi Input Bootstrap */
-.select2-container .select2-selection--single { 
-    height: 38px; 
-    line-height: 38px; 
-    border: 1px solid #ced4da; 
+.header h2 {
+    margin: 0;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered { 
-    line-height: 38px; 
+.header button {
+    background: white;
+    border: 1px solid #333;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow { 
-    height: 36px; 
+/* ---------- HERO IMAGE ---------- */
+.hero {
+    width: 100%;
+    height: 350px;
+    background-size: cover;
+    background-image: url("/assets/Hero.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 5px solid #0087ff;
+    box-sizing: border-box;
+    padding: 60px;
+    color: white;
+    position: relative;
 }
 
+/* JUDUL DI DALAM HERO */
+.hero h1 {
+    width: 60%;
+    font-size: 30px;
+    font-weight: bold;
+    text-shadow: 1px 2px 3px black;
+}
+
+.hero p {
+    width: 50%;
+    line-height: 1.5;
+    text-shadow: 1px 2px 3px black;
+}
+
+/* ---------- PANEL LOGIN ---------- */
+.panelBox {
+    width: 320px;
+    background: #dcdcdc;
+    padding: 25px;
+    position: absolute;
+    top: 140px;
+    right: 40px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+#loginBox, #registerBox {
+    display: none;
+}
+
+#loginBox.active,
+#registerBox.active {
+    display: block;
+}
+
+.panelBox h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* FORM INPUT */
+.panelBox input,
+.panelBox select {
+    background: white !important;
+    border: 1px solid #aaa !important;
+}
+
+/* ---------- INFO SECTION ---------- */
+.info {
+    display: flex;
+    padding: 40px 40px;
+    gap: 20px;
+}
+
+.info > div {
+    background: #e5e5e5;
+    padding: 20px;
+    width: 33%;
+    border-radius: 5px;
+}
+
+.info h5 {
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    background: #e5e5e5;
+    padding: 15px;
+    text-align: center;
+    margin-top: 20px;
+}
