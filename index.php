@@ -58,7 +58,7 @@ if(isset($_POST['daftar'])){
             VALUES ('$nama','$telp','$password','$kelas','Pending','$tipe')";
             mysqli_query($conn,$sql);
 
-        // echo "<script>alert('Registrasi berhasil, tunggu konfirmasi petugas');window.location='index.php?registrasi=sukses';</script>";
+        echo "<script>alert('Registrasi berhasil, tunggu konfirmasi petugas');window.location='index.php?registrasi=sukses';</script>";
    
 }
 ?>
@@ -223,10 +223,11 @@ if(isset($_POST['daftar'])){
     Sudah punya akun? Login
   </button>
 </div>
+</section>
 
 <!-- FOOTER -->
 <footer class="bg-blue-600 text-white w-full mt-16">
-  <div class="w-full px-10 text-center flex items-center justify-center h-32">
+ <div class="w-full px-10 text-center flex items-center justify-center h-20">
     © 2024 E-Perpus MAN 2 Samarinda — All Rights Reserved.
   </div>
 </footer>
@@ -246,7 +247,6 @@ function showLogin() {
 }
 
 <?php if(isset($_GET['registrasi']) && $_GET['registrasi'] == 'sukses'): ?>
-  alert('Registrasi berhasil, tunggu konfirmasi admin!');
   // Tampilkan loginCard
   showLogin();
 <?php endif; ?>

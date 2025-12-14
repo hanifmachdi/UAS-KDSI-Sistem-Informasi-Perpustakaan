@@ -8,8 +8,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'Petugas') {
 
 include 'koneksi.php';
 
-// LOGIKA PHP UTAMA
-
 // daftar anggota pending
 $pending = mysqli_query($conn,"SELECT * FROM anggota WHERE status_akun='Pending'");
 
@@ -112,21 +110,32 @@ if (isset($_GET['aksi']) && $_GET['aksi'] == 'kembali') {
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4 shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#">Admin Perpus</a>
-        <div class="d-flex align-items-center">
-            <span class="text-white me-3">
-                Halo, <?= $_SESSION['nama'] ?? 'Petugas' ?>
-            </span>
-            <a href="logout.php" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin logout?')">Logout</a>
+        <a class="navbar-brand fw-bold" href="dashboard_petugas.php">Admin Perpus</a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="daftar_anggota.php">Daftar Anggota</a>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">
+                    Halo, <?= $_SESSION['nama'] ?? 'Petugas' ?>
+                </span>
+                <a href="logout.php" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Yakin ingin logout?')">Logout</a>
+            </div>
         </div>
     </div>
 </nav>
+
 
 <div class="container">
     <h2 class="text-center mb-4">Sistem Informasi Perpustakaan MAN 2 Samarinda</h2>
@@ -135,36 +144,46 @@ if (isset($_GET['aksi']) && $_GET['aksi'] == 'kembali') {
     <div class="card-header bg-warning">
         <strong>Menunggu Persetujuan</strong>
     </div>
+
     <div class="card-body">
         <table class="table table-bordered">
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>No HP</th>
-                <th>Aksi</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>No HP</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
             <?php 
             $no = 1;
-            while($row = mysqli_fetch_assoc($pending)) { ?>
-            <tr>
-                <td><?= $no++ ?></td>
-                <td>
-                    <a href='detail_anggota.php?id=<?=  $row['id_anggota'] ?>'>
-                        <?=  $row['nama_lengkap'] ?>
-                    </a>
-                    <br><small><?= $row['kelas'] ?></small>
-                </td>
-                <td><?= $row['no_telepon'] ?></td>
-                <td>
-                    <a href="approve.php?id=<?= $row['id_anggota']?>" class="btn btn-success btn-sm">
-                        Setujui
-                    </a>
-                </td>
-            </tr>
+            while ($row = mysqli_fetch_assoc($pending)) { ?>
+                <tr>
+                    <td><?= $no++ ?></td>
+
+                    <td>
+                        <?= $row['nama_lengkap'] ?><br>
+                        <small><?= $row['kelas'] ?></small>
+                    </td>
+
+                    <td><?= $row['no_telepon'] ?></td>
+
+                    <td>
+                        <a href="approve.php?id=<?= $row['id_anggota'] ?>"
+                           class="btn btn-success btn-sm"
+                           onclick="return confirm('Yakin setujui anggota ini?')">
+                            Setujui
+                        </a>
+                    </td>
+                </tr>
             <?php } ?>
+            </tbody>
         </table>
     </div>
 </div>
+
 
 
     <div class="card">

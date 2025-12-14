@@ -8,7 +8,9 @@ if(!isset($_SESSION['role']) || $_SESSION['role']!='Petugas'){
     exit;
 }
 
-$id = $_GET['id'];
+// $id = $_GET['id'];
+$id = intval($_GET['id']);
+
 
 // ambil data anggota
 $anggota = mysqli_query($conn,"SELECT * FROM anggota WHERE id_anggota='$id'");
@@ -99,7 +101,7 @@ while($r=mysqli_fetch_assoc($riwayat)){ ?>
 <?php } ?>
 </table>
 
-<a href="dashboard_petugas.php" class="btn btn-secondary">Kembali</a>
+<a href="Daftar_anggota.php" class="btn btn-secondary">Kembali</a>
 
 </body>
 </html>
